@@ -1,0 +1,29 @@
+# Vim temporary files.
+*.swp
+*.swo
+*.swn
+*.swm
+*~
+Session.vim
+session.vim
+
+# tool that reloads golang webservers in development
+# e.g.: gin -a 8000 -i run main.go
+# It builds a "gin-bin" file of the golang executable.
+gin-bin
+
+# Python
+**/__pycache__
+.venv
+
+# Docker env vars file.
+.env
+
+# Vim's YCM (You Complete Me) cache folders.
+.cache
+
+# C linter
+.ccls-cache
+
+# My notes
+LDA.md

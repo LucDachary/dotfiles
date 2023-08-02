@@ -11,7 +11,9 @@ Plugin 'VundleVim/Vundle.vim'
 
 " Git
 Plugin 'tpope/vim-fugitive'  " Git features
-Plugin 'airblade/vim-gitgutter' " git diff in the left gutter
+" Fri, 09 Jun 2023 21:07:23 +0200
+" Removing in aid of vim8 package ~/.vim/pack/airblade/gitgutter
+" Plugin 'airblade/vim-gitgutter' " git diff in the left gutter
 
 " Surround text with quotes and stuff.
 Plugin 'tpope/vim-surround' " https://github.com/tpope/vim-surround 

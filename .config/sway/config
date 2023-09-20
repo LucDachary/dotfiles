@@ -25,6 +25,14 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -3% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+# LDA 2020-03-22 reinstalling Pulseaudio so commenting out these ALSA equivalents.
+# bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -q sset Master,0 5+ unmute"
+# bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -q sset Master,0 5- unmute"
+# bindsym XF86AudioMute exec --no-startup-id "amixer -q sset Master,0 toggle && $refresh_i3status"
+#
+# 2020-03-22 LDA: choosing HDMI profile on sound card, instead of analog (jack) output:
+# pactl set-card-profile 0 output:hdmi-stereo
+# See "pactl list cards" for the list of cards, and the "Profils" section in the output for the available profiles.
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -36,6 +44,15 @@ bindsym $mod+Return exec alacritty
 bindsym $mod+Shift+q kill
 
 # start menu (a program launcher)
+# bindsym $mod+d exec dmenu_run
+# There also is the (new) i3-dmenu-desktop which only displays applications
+# shipping a .desktop file. It is a wrapper around dmenu, so you need that
+# installed.
+# LDA: original command with no specific font.
+# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -fn 'Fira Code:condensed:pixelsize=30'" --entry-type=desktop
+# See: https://wiki.archlinux.org/title/Rofi → Contributed themes
+# bindsym $mod+d exec rofi -show drun
 bindsym $mod+d exec --no-startup-id wofi --gtk-dark --show drun -run-shell-command '{terminal} -e bash -ic "{cmd} && read"'
 
 # change focus
@@ -79,6 +96,9 @@ bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
+# bindsym $mod+Shift+space floating toggle
+# LDA Fri, 29 Apr 2022 18:21:41 +0200
+# Trying another binding since setxkbmap is using $mod+space and taking priority.
 # Mod1 is Alt
 bindsym Control+Mod1+space floating toggle
 
@@ -184,29 +204,45 @@ bar {
 	swaybar_command waybar
 }
 
+# Fixed wallpaper
+#output "*" bg /home/luc/Images/Photos/Wallpapers/forrest.png fill
+# Set a random wallpaper
+#set $wallpapers_path ~/Images/Photos/Wallpapers
+#output "*" bg `find $wallpapers_path -type f | shuf -n 1` fill
+
 default_border none
 
 # To get identifiers on Sway, run: swaymsg -t get_tree
 
 assign [class="^Slack"] 1
+
 for_window [app_id="^Alacritty$"] border none
 for_window [app_id="^firefox$"] move --no-auto-back-and-forth to workspace 3
 for_window [title="Seamly2D"] move --no-auto-back-and-forth to workspace 8
+for_window [title="Zoiper5"] floating enable
+for_window [class="^Inkstitch$"] floating enable
 for_window [title="^Variables$"] floating enable, border normal
+for_window [class="^org.remmina.Remmina$"] move --no-auto-back-and-forth to workspace 9
 for_window [class="^inkstitch-gui$"] floating enable
 for_window [title="^Connectez-vous à votre compte PayPal - Mozilla Firefox$"] floating enable
 for_window [class="^Zathura$"] move --no-auto-back-and-forth to workspace 8
+for_window [class="^Min$"] move --no-auto-back-and-forth to workspace 3
 for_window [app_id="^mullvadbrowser$"] move --no-auto-back-and-forth to workspace 3
+
 # vncviewer in floating windows to keep the initial geometry
 for_window [class="^Vncviewer$"] floating enable
-for_window [class="^Gvncviewer$"] floating enable
-for_window [class="^scrcpy$"] floating disable
-# Inkscape & Inkscape modules
-for_window [class="^Inkstitch$"] floating enable
-for_window [app_id="^inkstitch$"] floating enable
-# LDA this does not work…
-for_window [app_id="^inkstitch$" title="^Embroidery Params$"] move absolute 0 0
 
+exec --no-startup-id swaymsg "exec tmux kill-server" # Just in case we logged out without rebooting.
+exec --no-startup-id swaymsg "exec firefox"
+# LDA Tue, 01 Nov 2022 20:04:47 +0100
+# Starting alacritty after firefox since bash is running HTTP requests (weather broadcast).
+exec --no-startup-id swaymsg "workspace 2; exec alacritty -e ~/.tmux.start"
+
+exec --no-startup-id swaymsg "exec chromium --ozone-platform=wayland https://pc.shadow.tech/home"
+
+# LDA commenting out since sometimes it's already opened.
+# TODO restore if the session is existing. Creating it otherwise.
+#
 # Run "xev" and then press a key to retrieve its keycode.
 # Run "xmodmap -pke" and see if the keycode you get has an alias, such as "Print" for keycode 107.
 #
@@ -231,7 +267,27 @@ bindsym --to-code {
 # TODO to select a window. See https://github.com/emersion/slurp
 # bindsym Control+Shift+s exec --no-startup-id swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp 
 
+bindsym XF86MonBrightnessUp exec --no-startup-id "xbacklight -inc 15 -fps 30"
+bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -dec 15 -fps 30"
+
 workspace_auto_back_and_forth yes
+
+# Display toggle
+# TODO restore a way or another
+#bindsym Control+Mod1+g exec --no-startup-id mydisplay game
+#bindsym Control+Mod1+t exec --no-startup-id mydisplay toutain
+# r → reset
+bindsym Control+Mod1+r exec --no-startup-id swaymsg output "*" enable
+# SONY TV is DP-2
+bindsym Control+Mod1+g exec --no-startup-id 'swaymsg output DP-2 enable; swaymsg output eDP-1 disable'
+
+for_window [class="^scrcpy$"] floating disable
+for_window [class="^Gvncviewer$"] floating enable
+
+# Inkscape & Inkscape modules
+for_window [app_id="^inkstitch$"] floating enable
+# LDA this does not work…
+for_window [app_id="^inkstitch$" title="^Embroidery Params$"] move absolute 0 0
 
 gaps inner 15
 # Gaps only with two or more windows
@@ -239,15 +295,21 @@ smart_gaps on
 
 # See https://wiki.archlinux.org/title/Sway#Keymap
 input * {
-  xkb_layout "fr-dev,fr"
+    xkb_layout "fr-dev,fr"
 	# It was this up to a system upgrade on Sat, 17 Jun 2023 08:00. Now "ar" is not found in
 	# symbols. To be fixed.
 	# xkb_layout "fr-dev,fr,ar"
 
-  # xkb_variant "colemak,,typewriter"
-  xkb_options "grp:win_space_toggle"
+    # xkb_variant "colemak,,typewriter"
+    xkb_options "grp:win_space_toggle"
 	# initially enable numlock on all keyboards
 	xkb_numlock enabled
+}
+
+# See https://wiki.archlinux.org/title/Sway#Input_devices
+input type:touchpad {
+    tap enabled
+    natural_scroll enabled
 }
 
 # Notifications manager

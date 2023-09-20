@@ -1,55 +1,70 @@
-" Vundle
+" Packages
+
+" mkdir -p ~/.vim/pack/airblade/opt
+" git clone https://github.com/airblade/vim-gitgutter.git ~/.vim/pack/airblade/opt/gitgutter
+" vim -u NONE -c "helptags ~/.vim/pack/airblade/opt/gitgutter/doc" -c q
+packadd! gitgutter
+
+" git clone https://github.com/preservim/nerdtree.git ~/.vim/pack/preservim/opt/nerdtree
+" vim -u NONE -c "helptags ~/.vim/pack/preservim/opt/nerdtree/doc" -c q
+packadd! nerdtree
+
+" git clone https://tpope.io/vim/fugitive.git ~/.vim/pack/tpope/opt/fugitive
+" vim -u NONE -c "helptags ~/.vim/pack/tpope/opt/fugitive/doc" -c q
+packadd! fugitive
+
+" git clone --recurse-submodules https://github.com/ycm-core/YouCompleteMe.git ~/.vim/pack/YouCompleteMe/opt/YouCompleteMe
+" sh -c "cd ~/.vim/pack/YouCompleteMe/opt/YouCompleteMe && ./install.py --rust-completer"
+packadd! YouCompleteMe
+
+" git clone https://tpope.io/vim/surround.git ~/.vim/pack/tpope/opt/surround
+" vim -u NONE -c "helptags ~/.vim/pack/tpope/opt/surround/doc" -c q
+packadd! surround
+
+" git clone --depth=1 https://github.com/ctrlpvim/ctrlp.vim.git ~/.vim/pack/ctrlpvim/opt/ctrlp
+" vim -u NONE -c "helptags ~/.vim/pack/ctrlpvim/opt/ctrlp" -c q
+packadd! ctrlp
+
+" git clone https://github.com/vim-airline/vim-airline ~/.vim/pack/vim-airline/opt/airline
+" vim -u NONE -c ":helptags ~/.vim/pack/vim-airline/opt/airline/doc" -c q
+packadd! airline
+
+" git clone https://github.com/vim-airline/vim-airline-themes ~/.vim/pack/vim-airline/opt/airline-themes
+" vim -u NONE -c ":helptags ~/.vim/pack/vim-airline/opt/airline-themes/doc" -c q
+packadd! airline-themes
+
+" git clone --depth 1 https://github.com/dense-analysis/ale.git ~/.vim/pack/dense-analysis/opt/ale
+" vim -u NONE -c ":helptags ~/.vim/pack/dense-analasys/opt/ale/doc" -c q
+packadd! ale
+
+" git clone --depth 1 https://github.com/sheerun/vim-polyglot ~/.vim/pack/sheerun/start/polyglot
+" vim -u NONE -c ":helptags ~/.vim/pack/sheerun/opt/polyglot/doc" -c q
+packadd! polyglot
+
+" Required by vim-markdown
+" git clone git@github.com:godlygeek/tabular.git ~/.vim/pack/godlygeek/opt/tabular
+" vim -u NONE -c ":helptags ~/.vim/pack/godlygeek/opt/tabular/doc" -c q
+packadd! tabular
+" git clone git@github.com:preservim/vim-markdown.git ~/.vim/pack/preservim/opt/markdown
+" vim -u NONE -c ":helptags ~/.vim/pack/preservim/opt/markdown/doc" -c q
+packadd! markdown
+
+" git clone git@github.com:lervag/vimtex.git ~/.vim/pack/lervag/opt/vimtex
+" vim -u NONE -c ":helptags ~/.vim/pack/lervag/opt/vimtex/doc" -c q
+packadd! vimtex
+
+" git clone https://github.com/rust-lang/rust.vim ~/.vim/pack/rust-lang/opt/rust
+" vim -u NONE -c ":helptags ~/.vim/pack/rust-lang/opt/rust/doc" -c q
+packadd! rust
+
+" Colors modules
+" git clone git@github.com:KabbAmine/yowish.vim.git ~/.vim/pack/colors/opt/yowish
+packadd! yowish
+" git clone git@github.com:NLKNguyen/papercolor-theme.git ~/.vim/pack/colors/opt/papercolor
+packadd! papercolor
+
 set nocompatible              " be iMproved, required
 filetype off                  " required
-
-" set the runtime path to include Vundle and initialize
-"  git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" let Vundle manage Vundle, required
-"Plugin 'VundleVim/Vundle.vim'
-
-" Git
-Plugin 'tpope/vim-fugitive'  " Git features
-
-" 2023-06-09
-" Gitgutter installed in ~/.vim/pack.
-
-" 2023-09-18
-" YouCompleteMe installed in ~/.vim/pack. See:
-" from https://github.com/ycm-core/YouCompleteMe/issues/4134#issuecomment-1446235584
-" ./install.py --rust-completer
-
-" Surround text with quotes and stuff.
-Plugin 'tpope/vim-surround' " https://github.com/tpope/vim-surround 
-
-" Miscellaneous
-Plugin 'preservim/nerdtree'
-Plugin 'mileszs/ack.vim'  " Grep-like search
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'kien/ctrlp.vim'
-
-" 2023-09-18
-" ALE installed from https://github.com/dense-analysis/ale to ~/.vim/pack.
-
-Plugin 'sheerun/vim-polyglot' " Syntax and indentation for 100+ languages.
-
-" Markown syntax
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
-
-" LaTeX
-Plugin 'lervag/vimtex'
-
-" Rust official: https://github.com/rust-lang/rust.vim
-Plugin 'rust-lang/rust.vim'
-
-" Colorscheme onehalfnight/onehalflight
-Plugin 'sonph/onehalf'
-call vundle#end()            " required
-
-packadd YouCompleteMe
 
 filetype plugin indent on    " required
 
@@ -115,35 +130,8 @@ let g:ale_fixers = {
 let g:ale_fix_on_save = 1
 " Alternatively, disable these fixers on save for all filetypes.
 let g:ale_fix_on_save_ignore = ['black']
-" Rust fixer is run with its dedicated Vundle:
 let g:rustfmt_autosave = 1
 
-" LDA Fri, 21 Jan 2022 14:14:51 +0100
-" I had to install:
-" npm install eslint-config-airbnb-base --user
-
-" /!\ for ALE don't forget to install the proper executables, such as eslint for JS.
-" apt install eslint flake8
-" Type :ALEInfo on a file to see (at the bottom of the output) what happened
-" with the validation.
-
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just
-" :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to
-" auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-
-
-" Configuration personnelle
-"format
 set cindent
 set autoindent
 filetype plugin indent on    " required
@@ -159,11 +147,8 @@ set t_Co=256
 set termguicolors
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-" colorscheme onehalfdark
-colorscheme envy
-" Disable Background Color Erase
-" See https://sunaku.github.io/vim-256color-bce.html
-" set t_ut=
+set background=dark
+colorscheme PaperColor
 
 set foldmethod=indent
 set shiftwidth=4

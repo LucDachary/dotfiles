@@ -7,13 +7,18 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+"Plugin 'VundleVim/Vundle.vim'
 
 " Git
 Plugin 'tpope/vim-fugitive'  " Git features
-" Fri, 09 Jun 2023 21:07:23 +0200
-" Removing in aid of vim8 package ~/.vim/pack/airblade/gitgutter
-" Plugin 'airblade/vim-gitgutter' " git diff in the left gutter
+
+" 2023-06-09
+" Gitgutter installed in ~/.vim/pack.
+
+" 2023-09-18
+" YouCompleteMe installed in ~/.vim/pack. See:
+" from https://github.com/ycm-core/YouCompleteMe/issues/4134#issuecomment-1446235584
+" ./install.py --rust-completer
 
 " Surround text with quotes and stuff.
 Plugin 'tpope/vim-surround' " https://github.com/tpope/vim-surround 
@@ -24,11 +29,10 @@ Plugin 'mileszs/ack.vim'  " Grep-like search
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'kien/ctrlp.vim'
-Plugin 'dense-analysis/ale' " ALE (Asynchronous Lint Engine)
 
-" JS and JSX
-" Plugin 'pangloss/vim-javascript'  " Javascript support only.
-" Plugin 'mxw/vim-jsx'  " JSX support only, recommended with pangloss/vim-javascript.
+" 2023-09-18
+" ALE installed from https://github.com/dense-analysis/ale to ~/.vim/pack.
+
 Plugin 'sheerun/vim-polyglot' " Syntax and indentation for 100+ languages.
 
 " Markown syntax
@@ -43,10 +47,10 @@ Plugin 'rust-lang/rust.vim'
 
 " Colorscheme onehalfnight/onehalflight
 Plugin 'sonph/onehalf'
-
-" https://github.com/ycm-core/YouCompleteMe/blob/master/README.md#full-installation-guide
-Plugin 'ycm-core/YouCompleteMe'
 call vundle#end()            " required
+
+packadd YouCompleteMe
+
 filetype plugin indent on    " required
 
 set encoding=utf-8
@@ -83,8 +87,6 @@ let g:airline_section_error = ''
 let g:airline_section_warning = ''
 
 " Installation of ALE (Asynchronous Lint Engine)
-" 2018-07-18
-" https://github.com/w0rp/ale#installation
 " Set this. Airline will handle the rest.
 let g:airline#extensions#ale#enabled = 1
 
@@ -446,6 +448,13 @@ if exists('$TMUX')
 " YouCompleteMe shortcuts
 nnoremap <F10> :YcmCompleter GoTo<cr>
 nnoremap <F11> :tab split \| YcmCompleter GoTo<CR>
+" Sun, 18 Dec 2022 15:38:39 +0100
+" Disabling YCM documentation automatic popup on hovering, because it's waaaay to long for Rust
+" and I cannot see errors or commandline.
+let g:ycm_auto_hover="''"
+" If one want to see the help, just press <leader>D above the word.
+nmap <leader>D <plug>(YCMHover)
+
 
  " Allows custom .vimrc files in projects directories, but in secure mode.
  " See https://www.alexeyshmalko.com/2014/using-vim-as-c-cpp-ide/
@@ -497,10 +506,3 @@ set pastetoggle=<F2>
 " → Ca fonctionne mais ce n'est pas pratique d'avoir fermé l'accolade.
 :imap <C-i> \emph{
 :imap <C-b> \textbf{
-
-" Sun, 18 Dec 2022 15:38:39 +0100
-" Disabling YCM documentation automatic popup on hovering, because it's waaaay to long for Rust
-" and I cannot see errors or commandline.
-let g:ycm_auto_hover="''"
-" If one want to see the help, just press <leader>D above the word.
-nmap <leader>D <plug>(YCMHover)

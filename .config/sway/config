@@ -232,17 +232,6 @@ for_window [app_id="^mullvadbrowser$"] move --no-auto-back-and-forth to workspac
 # vncviewer in floating windows to keep the initial geometry
 for_window [class="^Vncviewer$"] floating enable
 
-exec --no-startup-id swaymsg "exec tmux kill-server" # Just in case we logged out without rebooting.
-exec --no-startup-id swaymsg "exec firefox"
-# LDA Tue, 01 Nov 2022 20:04:47 +0100
-# Starting alacritty after firefox since bash is running HTTP requests (weather broadcast).
-exec --no-startup-id swaymsg "workspace 2; exec alacritty -e ~/.tmux.start"
-
-exec --no-startup-id swaymsg "exec chromium --ozone-platform=wayland https://pc.shadow.tech/home"
-
-# LDA commenting out since sometimes it's already opened.
-# TODO restore if the session is existing. Creating it otherwise.
-#
 # Run "xev" and then press a key to retrieve its keycode.
 # Run "xmodmap -pke" and see if the keycode you get has an alias, such as "Print" for keycode 107.
 #
@@ -304,12 +293,6 @@ input * {
     xkb_options "grp:win_space_toggle"
 	# initially enable numlock on all keyboards
 	xkb_numlock enabled
-}
-
-# See https://wiki.archlinux.org/title/Sway#Input_devices
-input type:touchpad {
-    tap enabled
-    natural_scroll enabled
 }
 
 # Notifications manager

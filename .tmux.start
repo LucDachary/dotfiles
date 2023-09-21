@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# LDA 2023-06-02 dimensions of the Starlite Alacritty terminal
+# tput cols
+# tput lines
+# This precision is necessary since the session is started in detached mode.
+tmux new-session -d -t "luc-auto" -x 196 -y 39 -c ~
+
+tmux move-window -t 50  # Rename to remove later.
+
+# Root
+tmux new-window -c ~ bash
+tmux rename-window root
+tmux split-window -h -l 66% vit
+
+# SHELL FOR remote sessions.
+tmux new-window -c /home/luc bash
+tmux rename-window ssh
+
+# NCSPOT for MUSIC
+tmux new-window bash -c "ncspot"
+tmux rename-window NCSPOT
+
+# Kill the default window.
+tmux kill-window -t 50
+
+#tmux select-window -t vim
+tmux attach-session -t luc-auto

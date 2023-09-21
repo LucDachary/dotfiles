@@ -204,12 +204,6 @@ bar {
 	swaybar_command waybar
 }
 
-# Fixed wallpaper
-#output "*" bg /home/luc/Images/Photos/Wallpapers/forrest.png fill
-# Set a random wallpaper
-#set $wallpapers_path ~/Images/Photos/Wallpapers
-#output "*" bg `find $wallpapers_path -type f | shuf -n 1` fill
-
 default_border none
 
 # To get identifiers on Sway, run: swaymsg -t get_tree
@@ -260,15 +254,6 @@ bindsym XF86MonBrightnessUp exec --no-startup-id "xbacklight -inc 15 -fps 30"
 bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -dec 15 -fps 30"
 
 workspace_auto_back_and_forth yes
-
-# Display toggle
-# TODO restore a way or another
-#bindsym Control+Mod1+g exec --no-startup-id mydisplay game
-#bindsym Control+Mod1+t exec --no-startup-id mydisplay toutain
-# r → reset
-bindsym Control+Mod1+r exec --no-startup-id swaymsg output "*" enable
-# SONY TV is DP-2
-bindsym Control+Mod1+g exec --no-startup-id 'swaymsg output DP-2 enable; swaymsg output eDP-1 disable'
 
 for_window [class="^scrcpy$"] floating disable
 for_window [class="^Gvncviewer$"] floating enable

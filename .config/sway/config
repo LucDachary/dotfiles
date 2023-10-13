@@ -208,23 +208,23 @@ default_border none
 
 # To get identifiers on Sway, run: swaymsg -t get_tree
 
-assign [class="^Slack"] 1
-
 for_window [app_id="^Alacritty$"] border none
-for_window [app_id="^firefox$"] move --no-auto-back-and-forth to workspace 3
-for_window [title="Seamly2D"] move --no-auto-back-and-forth to workspace 8
-for_window [title="Zoiper5"] floating enable
 for_window [class="^Inkstitch$"] floating enable
 for_window [title="^Variables$"] floating enable, border normal
-for_window [class="^org.remmina.Remmina$"] move --no-auto-back-and-forth to workspace 9
 for_window [class="^inkstitch-gui$"] floating enable
 for_window [title="^Connectez-vous à votre compte PayPal - Mozilla Firefox$"] floating enable
-for_window [class="^Zathura$"] move --no-auto-back-and-forth to workspace 8
+# vncviewer in floating windows to keep the initial geometry
+for_window [class="^Vncviewer$"] floating enable
+
+assign [class="^Slack"] 1
+for_window [app_id="^firefox$"] move --no-auto-back-and-forth to workspace 3
+for_window [app_id="^chromium$"] move --no-auto-back-and-forth to workspace 3
 for_window [class="^Min$"] move --no-auto-back-and-forth to workspace 3
 for_window [app_id="^mullvadbrowser$"] move --no-auto-back-and-forth to workspace 3
 
-# vncviewer in floating windows to keep the initial geometry
-for_window [class="^Vncviewer$"] floating enable
+for_window [class="^Zathura$"] move --no-auto-back-and-forth to workspace 8
+for_window [app_id="^org.pwmt.zathura$"] move --no-auto-back-and-forth to workspace 8
+for_window [title="Seamly2D"] move --no-auto-back-and-forth to workspace 8
 
 # Run "xev" and then press a key to retrieve its keycode.
 # Run "xmodmap -pke" and see if the keycode you get has an alias, such as "Print" for keycode 107.
@@ -241,7 +241,8 @@ bindsym --to-code {
 	# DEV
 	# Control+Shift+s exec grim -g "$(slurp)" - | swappy -f -
 	# FIXME This does not work, why?
-	Control+Shift+s exec grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp)" - | swappy -f -
+	# Alt+Shift+Print
+	Control+Shift+Print exec grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp -r)" - | swappy -f -
 
 	# Grab a screenshot from the focused window under Sway, using swaymsg and jq:
 	# Mod1+Shift+s exec grim -g "$(swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')"
@@ -280,7 +281,14 @@ input * {
 	xkb_numlock enabled
 }
 
+# Lock
+# TODO suspend dpms a few seconds after we lock the screen.
+bindsym Control+Mod1+l exec --no-startup-id swaylock -F -k --image /home/luc/Images/Photos/Wallpapers/forrest.png -f
+
 # Notifications manager
 exec dunst
 
+# See https://wiki.archlinux.org/title/Sway#Configuration
+include /etc/sway/config.d/*
+# Custom per-host configuration.
 include ~/.config/sway/`hostname`.conf

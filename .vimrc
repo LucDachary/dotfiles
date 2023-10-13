@@ -57,6 +57,17 @@ packadd! vimtex
 " vim -u NONE -c ":helptags ~/.vim/pack/rust-lang/opt/rust/doc" -c q
 packadd! rust
 
+" Workaround module for the clipboard.
+" git clone https://github.com/jasonccox/vim-wayland-clipboard.git ~/.vim/pack/jasonccox/opt/wayland-clipboard
+packadd! wayland-clipboard
+
+" FZF
+" git clone git@github.com:junegunn/fzf.git ~/.vim/pack/junegunn/opt/fzf
+" git clone git@github.com:junegunn/fzf.vim.git ~/.vim/pack/junegunn/opt/fzf-vim
+packadd! fzf
+packadd! fzf-vim
+
+"
 " Colors modules
 " git clone git@github.com:KabbAmine/yowish.vim.git ~/.vim/pack/colors/opt/yowish
 packadd! yowish
@@ -167,26 +178,6 @@ set clipboard=unnamedplus
 
 let mapleader = ","
 let maplocalleader = "_"
-
-" ack.vim --- {{{
-" Use ripgrep for searching ⚡️
-" Options include:
-" --vimgrep -> Needed to parse the rg response properly for ack.vim
-" --type-not sql -> Avoid huge sql file dumps as it slows down the search
-" --smart-case -> Search case insensitive if all lowercase pattern, Search case sensitively otherwise
-let g:ackprg = 'rg --vimgrep --type-not sql --smart-case'
-" Auto close the Quickfix list after pressing '<enter>' on a list item
-let g:ack_autoclose = 1
-" Any empty ack search will search for the work the cursor is on
-let g:ack_use_cword_for_empty_search = 0
-let g:ackhighlight = 1
-" Maps <leader>/ so we're ready to type the search keyword
-" Place un marqueur et cherche
-nmap <leader>/ mA:Ack!<space>
-" Place un marqueur et cherche le mot sous le curseur
-nmap <leader>j mA:Ack! "<C-r>=expand("<cword>")<cr>"<space>
-nmap <leader>J mA:Ack! "<C-r>=expand("<cWORD>")<cr>"<space>
-" }}}
 
 " Marque à 100 caractères.
 set cc=100
@@ -491,3 +482,9 @@ set pastetoggle=<F2>
 " → Ca fonctionne mais ce n'est pas pratique d'avoir fermé l'accolade.
 :imap <C-i> \emph{
 :imap <C-b> \textbf{
+
+" Research configuration.
+nnoremap <silent> <Leader>f :Rg<CR>
+set grepprg=rg\ --vimgrep\ --smart-case\ --follow
+" TODO fix
+nmap <leader>j :Rg "<C-r>=expand("<cword>")<cr>"<space>

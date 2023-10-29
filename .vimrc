@@ -14,7 +14,7 @@ packadd! nerdtree
 packadd! fugitive
 
 " git clone --recurse-submodules https://github.com/ycm-core/YouCompleteMe.git ~/.vim/pack/YouCompleteMe/opt/YouCompleteMe
-" sh -c "cd ~/.vim/pack/YouCompleteMe/opt/YouCompleteMe && ./install.py --rust-completer"
+" sh -c "cd ~/.vim/pack/YouCompleteMe/opt/YouCompleteMe && ./install.py --rust-completer --clang-completer"
 packadd! YouCompleteMe
 
 " git clone https://tpope.io/vim/surround.git ~/.vim/pack/tpope/opt/surround
@@ -246,17 +246,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 if has('autocmd')
 	au BufRead,BufNewFile *.txt set wm=2 tw=80
 endif
-
-" Php-vim configuration
-function! PhpSyntaxOverride()
-	hi! def link phpDocTags  phpDefine
-	hi! def link phpDocParam phpType
-endfunction
-
-augroup phpSyntaxOverride
-	autocmd!
-	autocmd FileType php call PhpSyntaxOverride()
-augroup END
 
 " 2017-08-19 improvments
 " Read https://realpython.com/blog/python/vim-and-python-a-match-made-in-heaven/

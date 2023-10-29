@@ -24,6 +24,9 @@ if [ -z "${WAYLAND_DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
 		export FZF_DEFAULT_OPTS='-m --height 50% --border'
 	fi
 
+	# To fix `texlive-core` installation. See STARLUC's journal.
+	alias tlmgr='/usr/share/texmf-dist/scripts/texlive/tlmgr.pl --usermode'
+
 	if [ `hostname` = "starluc" ]; then
 		# See https://wiki.archlinux.org/title/Hardware_video_acceleration#Configuring_VA-API
 		export LIBVA_DRIVER_NAME=iHD

@@ -477,3 +477,4 @@ nnoremap <silent> <Leader>f :Rg<CR>
 set grepprg=rg\ --vimgrep\ --smart-case\ --follow
 " TODO fix
 nmap <leader>j :Rg "<C-r>=expand("<cword>")<cr>"<space>
+nnoremap <leader>c :Commits<CR>

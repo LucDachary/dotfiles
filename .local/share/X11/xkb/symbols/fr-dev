@@ -1,0 +1,40 @@
+default partial alphanumeric_keys
+xkb_symbols "basic" {
+
+    include "latin"
+
+    name[Group1]="French";
+
+    key <AE01>	{ [ ampersand,          1,  onesuperior,   exclamdown ]	};
+    key <AE02>	{ [asciitilde,          2,       eacute,    oneeighth ]	};
+    key <AE03>	{ [  quotedbl,          3,  twosuperior,     sterling ]	};
+    key <AE04>	{ [apostrophe,          4,    dead_diaeresis,       dollar ]	};
+    key <AE05>	{ [ parenleft,          5,  bracketleft, threeeighths ]	};
+    key <AE06>	{ [     minus,          6,          bar,  fiveeighths ]	};
+    key <AE07>	{ [ backslash,          7,     ccedilla, seveneighths ]	};
+    key <AE08>	{ [underscore,          8,    	 egrave,    trademark ]	};
+    key <AE09>	{ [     grave,          9,  asciicircum,    plusminus ]	};
+    key <AE10>	{ [        at,          0,       agrave,       degree ]	};
+    key <AE11>	{ [parenright,     degree, bracketright, questiondown ]	};
+    key <AE12>	{ [     equal,       plus,   sterling,  dead_ogonek ]	};
+
+    key <AD01>	{ [         a,          A,           ae,           AE ]	};
+    key <AD02>	{ [         z,          Z, guillemotleft,        less ]	};
+    key <AD03>	{ [         e,          E,     EuroSign,         cent ]	};
+    key <AD11>	{ [dead_circumflex, braceleft, dead_diaeresis, dead_abovering ] };
+    key <AD12>	{ [    dollar,   braceright,     currency,  dead_macron ]	};
+
+    key <AC01>	{ [         q,          Q,           at,  Greek_OMEGA ]	};
+    key <AC10>	{ [         m,          M,           mu,    masculine ]	};
+    key <AC11>	{ [    	slash,    percent, dead_circumflex, dead_caron]	};
+    key <TLDE>	{ [numbersign, asciitilde,      notsign,      notsign ]	};
+
+    key <BKSL>	{ [  asterisk,         mu,   dead_grave,   dead_breve ]	};
+    key <AB01>	{ [         w,          W,      lstroke,      Lstroke ]	};
+    key <AB07>	{ [     comma,   question,   dead_acute, dead_doubleacute ] };
+    key <AB08>	{ [ semicolon,     period,        U2022,     multiply ]	}; // bullet
+    key <AB09>	{ [     colon,     ugrave, periodcentered,   division ]	};
+    key <AB10>	{ [    exclam,    section, dead_belowdot, dead_abovedot ] };
+
+    include "level3(ralt_switch)"
+};

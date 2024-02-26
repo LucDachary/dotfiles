@@ -270,7 +270,7 @@ smart_gaps on
 
 # See https://wiki.archlinux.org/title/Sway#Keymap
 input * {
-    xkb_layout "fr-dev,fr"
+    xkb_layout "fr-dev,fr,us"
 	# It was this up to a system upgrade on Sat, 17 Jun 2023 08:00. Now "ar" is not found in
 	# symbols. To be fixed.
 	# xkb_layout "fr-dev,fr,ar"

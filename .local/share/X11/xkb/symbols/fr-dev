@@ -10,7 +10,7 @@ xkb_symbols "basic" {
     key <AE03>	{ [  quotedbl,          3,  twosuperior,     sterling ]	};
     key <AE04>	{ [apostrophe,          4,    dead_diaeresis,       dollar ]	};
     key <AE05>	{ [ parenleft,          5,  bracketleft, threeeighths ]	};
-    key <AE06>	{ [     minus,          6,          bar,  fiveeighths ]	};
+    key <AE06>	{ [     minus,          6,           mu,  fiveeighths ]	};
     key <AE07>	{ [ backslash,          7,     ccedilla, seveneighths ]	};
     key <AE08>	{ [underscore,          8,    	 egrave,    trademark ]	};
     key <AE09>	{ [     grave,          9,  asciicircum,    plusminus ]	};
@@ -29,7 +29,7 @@ xkb_symbols "basic" {
     key <AC11>	{ [    	slash,    percent, dead_circumflex, dead_caron]	};
     key <TLDE>	{ [numbersign, asciitilde,      notsign,      notsign ]	};
 
-    key <BKSL>	{ [  asterisk,         mu,   dead_grave,   dead_breve ]	};
+    key <BKSL>	{ [  asterisk,        bar,   dead_grave,   dead_breve ]	};
     key <AB01>	{ [         w,          W,      lstroke,      Lstroke ]	};
     key <AB07>	{ [     comma,   question,   dead_acute, dead_doubleacute ] };
     key <AB08>	{ [ semicolon,     period,        U2022,     multiply ]	}; // bullet

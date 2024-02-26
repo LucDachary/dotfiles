@@ -355,6 +355,11 @@ ab rseponse response
 ab statsu status
 ab respnse response
 ab defualt default
+ab sectino section
+ab configuratino configuration
+ab iwht with
+ab heelp help
+ab lstlistling lstlisting
 
 " Comment in and out for # (Python).
 vnoremap <silent> # :s/^/#/<cr>:noh<cr>
@@ -475,6 +480,4 @@ set pastetoggle=<F2>
 " Research configuration.
 nnoremap <silent> <Leader>f :Rg<CR>
 set grepprg=rg\ --vimgrep\ --smart-case\ --follow
-" TODO fix
-nmap <leader>j :Rg "<C-r>=expand("<cword>")<cr>"<space>
 nnoremap <leader>c :Commits<CR>

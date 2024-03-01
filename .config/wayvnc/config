@@ -1,0 +1,3 @@
+address=localhost
+# This layout supports all symbols from "fr-dev", so the client will be able to use it.
+xkb_layout=fr

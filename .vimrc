@@ -298,9 +298,11 @@ au BufRead,BufNewFile *.py,*.pyw,*.c,*.h,*.js
 
 " Markdown syntax configuration
 let g:vim_markdown_toc_autofit = 1
+let g:vim_markdown_borderless_table = 1
 set conceallevel=2 " To have italic, bold and links, instead of _italic_, __bold__, and [link](http://...).
 let g:vim_markdown_no_extensions_in_markdown = 1 " For GitHub and GitLab wiki.
 let g:vim_markdown_autowrite = 1 " Autosave when following links with command ge.
+nnoremap T :Tabl<CR>
 
 " Ctrl+j and Ctrl+k to navigate
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
@@ -481,3 +483,8 @@ set pastetoggle=<F2>
 nnoremap <silent> <Leader>f :Rg<CR>
 set grepprg=rg\ --vimgrep\ --smart-case\ --follow
 nnoremap <leader>c :Commits<CR>
+
+"
+" Notes
+" * To search for a digraph, run `:h digraph-table`, then use / or ?.
+" * To indent a markdown table under the cursor, run `:TableFormat`.

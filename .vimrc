@@ -37,6 +37,9 @@ packadd! airline-themes
 " vim -u NONE -c ":helptags ~/.vim/pack/dense-analasys/opt/ale/doc" -c q
 packadd! ale
 
+" https://codeinthehole.com/tips/writing-markdown-in-vim/
+" -> Polyglot bundles the excellent preservim/vim-markdown plugin, but install it directly so the latest version is used
+let g:polyglot_disabled = ['markdown']
 " git clone --depth 1 https://github.com/sheerun/vim-polyglot ~/.vim/pack/sheerun/start/polyglot
 " vim -u NONE -c ":helptags ~/.vim/pack/sheerun/opt/polyglot/doc" -c q
 packadd! polyglot
@@ -296,12 +299,30 @@ au BufNewFile,BufRead *.c,*.h
 au BufRead,BufNewFile *.py,*.pyw,*.c,*.h,*.js
     \ match SpellCap /\s\+$/
 
-" Markdown syntax configuration
+"
+" Vim-markdown configuration
 let g:vim_markdown_toc_autofit = 1
 let g:vim_markdown_borderless_table = 1
 set conceallevel=2 " To have italic, bold and links, instead of _italic_, __bold__, and [link](http://...).
 let g:vim_markdown_no_extensions_in_markdown = 1 " For GitHub and GitLab wiki.
 let g:vim_markdown_autowrite = 1 " Autosave when following links with command ge.
+" Enable folding.
+let g:vim_markdown_folding_disabled = 0
+" Fold heading in with the contents.
+let g:vim_markdown_folding_style_pythonic = 1
+" Don't use the shipped key bindings.
+let g:vim_markdown_no_default_key_mappings = 1
+" Autoshrink TOCs.
+let g:vim_markdown_toc_autofit = 1
+" Indentation for new lists. We don't insert bullets as it doesn't play
+" nicely with `gq` formatting. It relies on a hack of treating bullets
+" as comment characters.
+" See https://github.com/plasticboy/vim-markdown/issues/232
+let g:vim_markdown_new_list_item_indent = 0
+let g:vim_markdown_auto_insert_bullets = 0
+" Format strike-through text (wrapped in `~~`).
+let g:vim_markdown_strikethrough = 1
+
 nnoremap T :Tabl<CR>
 
 " Ctrl+j and Ctrl+k to navigate

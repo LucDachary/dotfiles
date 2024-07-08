@@ -119,11 +119,11 @@ font:
 #    style: Regular
 #  size: 9
 
-    family: Iosevka
+    family: JetBrains Mono
 #    family: JetBrainsMono Nerd Font Mono
 #    family: Fira Code Nerd Font Mono
     style: Regular
-  size: 9
+  size: 10
 
 #    family: Iosevka Nerd Font Mono
 #    style: Regular

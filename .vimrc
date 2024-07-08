@@ -67,6 +67,7 @@ packadd! wayland-clipboard
 " FZF
 " git clone git@github.com:junegunn/fzf.git ~/.vim/pack/junegunn/opt/fzf
 " git clone git@github.com:junegunn/fzf.vim.git ~/.vim/pack/junegunn/opt/fzf-vim
+" sudo apt install fzf -y
 packadd! fzf
 packadd! fzf-vim
 
@@ -247,7 +248,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 
 " Saut de ligne automatique sur les fichiers .txt
 if has('autocmd')
-	au BufRead,BufNewFile *.txt set wm=2 tw=80
+	au BufRead,BufNewFile *.txt set wm=2 tw=100
 endif
 
 " 2017-08-19 improvments
@@ -504,6 +505,20 @@ set pastetoggle=<F2>
 nnoremap <silent> <Leader>f :Rg<CR>
 set grepprg=rg\ --vimgrep\ --smart-case\ --follow
 nnoremap <leader>c :Commits<CR>
+
+"
+" FZF configuration
+let g:fzf_vim = {}
+" Preview window always displayed on the right, unless there is less than 70
+" columns, then it's up to 50% height on top of the search. Ctrl + / to
+" toggle.
+let g:fzf_vim.preview_window = ['right,50%,<70(up,50%)', 'ctrl-/']
+" Overriding :Rg and :RG to add "--no-ignore" and "--follow".
+" Original code from ~/.vim/pack/junegunn/opt/fzf-vim/plugin/fzf.vim, lines 63 and 64.
+" TODO determine if "--follow" does not imply too much processing (/var/oscp/* is quite deep)
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --follow --no-ignore --column --line-number --no-heading --color=always --smart-case -- ".fzf#shellescape(<q-args>), fzf#vim#with_preview(), <bang>0)
+command! -bang -nargs=* RG call fzf#vim#grep2("rg --follow --no-ignore --column --line-number --no-heading --color=always --smart-case -- ", <q-args>, fzf#vim#with_preview(), <bang>0)'
+
 
 "
 " Notes

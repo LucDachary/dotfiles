@@ -384,6 +384,7 @@ ab configuratino configuration
 ab iwht with
 ab heelp help
 ab lstlistling lstlisting
+ab optino option
 
 " Comment in and out for # (Python).
 vnoremap <silent> # :s/^/#/<cr>:noh<cr>

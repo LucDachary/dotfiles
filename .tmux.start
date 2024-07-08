@@ -36,3 +36,8 @@ tmux -f $CONF kill-window -t 50
 
 #tmux select-window -t vim
 tmux -f $CONF attach-session -t luc-auto
+
+# Sun, 10 Mar 2024 10:08:56 +0100
+# I read in `man tmux` that the configuration file is loaded once when the server is first started.
+# Maybe it's too late already here in all my "-f $CONF"? So I could just load it:
+tmux source-file $CONF

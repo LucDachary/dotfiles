@@ -218,7 +218,6 @@ for_window [class="^Vncviewer$"] floating enable
 
 assign [class="^Slack"] 1
 for_window [app_id="^firefox$"] move --no-auto-back-and-forth to workspace 3
-for_window [app_id="^chromium$"] move --no-auto-back-and-forth to workspace 3
 for_window [class="^Min$"] move --no-auto-back-and-forth to workspace 3
 for_window [app_id="^mullvadbrowser$"] move --no-auto-back-and-forth to workspace 3
 

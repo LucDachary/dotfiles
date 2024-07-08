@@ -16,4 +16,3 @@ include ~/.config/i3/config.d/execs.conf
 include ~/.config/i3/config.d/gaps.conf
 include ~/.config/i3/config.d/keybinds.conf
 include ~/.config/i3/config.d/windows.conf
-include ~/.config/i3/config.d/custom.conf

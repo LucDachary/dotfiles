@@ -1,5 +1,11 @@
+# Configuration
+# https://github.com/hrkfdn/ncspot/blob/main/doc/users.md#configuration
+
 use_nerdfont=true
 notify=true
+audio_cache=true
+audio_cache_size=10000
+initial_screen="queue"
 
 # Spotify
 [theme]

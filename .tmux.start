@@ -18,10 +18,13 @@ tmux -f $CONF \
 tmux -f $CONF move-window -t 50
 
 # Root
-tmux -f $CONF new-window -c ~ bash
-
+if [ $(hostname) = "starluc" ]; then
+	tmux -f $CONF new-window -c ~ vit
+else
+	tmux -f $CONF new-window -c ~ bash
+	tmux -f $CONF split-window -h -l 66% vit
+fi
 tmux -f $CONF rename-window root
-tmux -f $CONF split-window -h -l 66% vit
 
 # SHELL FOR remote sessions.
 tmux -f $CONF new-window -c /home/luc bash

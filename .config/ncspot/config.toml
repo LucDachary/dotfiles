@@ -7,6 +7,11 @@ audio_cache=true
 audio_cache_size=10000
 initial_screen="queue"
 
+[track_format]
+left = "%artists"
+center = "%title"
+right = "%album %saved %duration"
+
 # Spotify
 [theme]
 background = "black"

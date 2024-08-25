@@ -160,7 +160,7 @@ bindsym $mod+Shift+grave move container to workspace number $ws9
 bindsym $mod+Shift+agrave move container to workspace number $ws10
 bindsym $mod+Shift+at move container to workspace number $ws10
 
-# reload the configuration file
+# Reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
@@ -267,6 +267,11 @@ gaps inner 15
 # Gaps only with two or more windows
 smart_gaps on
 
+#
+# Inputs Configuration
+#
+# See https://man.archlinux.org/man/sway-input.5
+# See https://man.archlinux.org/man/xkeyboard-config.7
 # See https://wiki.archlinux.org/title/Sway#Keymap
 input * {
     xkb_layout "fr-dev,fr,us"
@@ -278,6 +283,13 @@ input * {
     xkb_options "grp:win_space_toggle"
 	# initially enable numlock on all keyboards
 	xkb_numlock enabled
+}
+
+# Apple Magic Keyboard (Dreem Legacy)
+# swaymsg -t get_inputs
+input 1452:620:Apple_Inc._Magic_Keyboard_with_Numeric_Keypad {
+	xkb_layout "fr-dev,fr,us"
+    xkb_options "grp:win_space_toggle,altwin:swap_lalt_lwin,altwin:swap_alt_win,lv3:rwin_switch"
 }
 
 # Lock

@@ -6,64 +6,16 @@ style = "Underline"
 TERM = "xterm-256color"
 
 [font]
-size = 14
+size = 10
 
 [font.normal]
-family = "JetBrains Mono"
-style = "Light"
+family = "JetBrainsMono Nerd Font"
+style = "Regular"
 
 [window]
 decorations = "none"
 startup_mode = "Maximized"
 title = "Alacritty Console"
-
-#[shell]
-#program = "/opt/homebrew/bin/bash"
-
-# https://github.com/anujc4/dotfiles/blob/master/roles/alacritty/files/alacritty_mac_base.toml
-[keyboard]
-bindings = [
-#	{ key = "F12", action = "ToggleMaximized" }, # This is what I was looking for
-#	{ key = "F12", action = "ToggleSimpleFullscreen" }, # This other is really cool
-#	{ key = "Paste", action = "Paste" },
-#	{ key = "Copy", action = "Copy" },
-#	{ key = "L", mods = "Control", action = "ClearLogNotice" },
-#	{ key = "L", mods = "Control", action = "ClearLogNotice" },
-#	{ key = "PageUp", mods = "Shift", mode = "~Alt", action = "ScrollPageUp" },
-#	{ key = "PageDown", mods = "Shift", mode = "~Alt", action = "ScrollPageDown" },
-#	{ key = "Home", mods = "Shift", mode = "~Alt", action = "ScrollToTop" },
-#	{ key = "End", mods = "Shift", mode = "~Alt", action = "ScrollToBottom" },
-#	{ key = "Left", mods = "Alt", chars = "\u001BB" }, # Skip word left
-#	{ key = "Right", mods = "Alt", chars = "\u001BF" }, # Skip word right
-	{ key = "b", mods = "Alt", chars = "\u001BB" }, # Skip word left
-	{ key = "f", mods = "Alt", chars = "\u001BF" }, # Skip word right
-
-# This restores the original Alt+hjkl from Tmux configuration, that wouldn't work with
-# macOS keyboard.
-#	{ key = "h", mods = "Alt", chars = "\u001Bh" },
-#	{ key = "l", mods = "Alt", chars = "\u001Bl" },
-#	{ key = "j", mods = "Alt", chars = "\u001Bj" },
-#	{ key = "k", mods = "Alt", chars = "\u001Bk" },
-
-# TODO map Command+( → Bracket left
-
-# Command+H is a pain-in-the-ass-cannot-be-disabled-shortcut on macOS, so I map
-# Shift+Command+(hjkl
-	{ key = "h", mods = "Shift|Command", chars = "\u001Bh" },
-	{ key = "l", mods = "Shift|Command", chars = "\u001Bl" },
-	{ key = "j", mods = "Shift|Command", chars = "\u001Bj" },
-	{ key = "k", mods = "Shift|Command", chars = "\u001Bk" },
-
-# This restores "delete one word forward"
-	{ key = "d", mods = "Alt", chars = "\u001Bd" },
-
-#	{ key = "Left", mods = "Command", chars = "\u001bOH", mode = "AppCursor" }, # Home
-#	{ key = "Right", mods = "Command", chars = "\u001bOF", mode = "AppCursor" }, # End
-#	{ key = "Back", mods = "Command", chars = "\u0015" }, # Delete line
-#	{ key = "Back", mods = "Alt", chars = "\u001b\u007f" }, # Delete word
-#	{ key = "c", mods = "Command", action = "Copy" }, # Copy to Clipboard
-#	{ key = "N", mods = "Command", action = "SpawnNewInstance" },
-]
 
 [general]
 live_config_reload = true

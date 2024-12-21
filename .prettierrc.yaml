@@ -1,0 +1,7 @@
+overrides:
+    - files:
+        - "*.md"
+        - "*.markdown"
+options:
+    # or "preserve"
+    proseWrap: "always"

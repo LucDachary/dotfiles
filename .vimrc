@@ -1,6 +1,5 @@
 " Packages
 
-" mkdir -p ~/.vim/pack/airblade/opt
 " git clone https://github.com/airblade/vim-gitgutter.git ~/.vim/pack/airblade/opt/gitgutter
 " vim -u NONE -c "helptags ~/.vim/pack/airblade/opt/gitgutter/doc" -c q
 packadd! gitgutter
@@ -64,7 +63,7 @@ packadd! wayland-clipboard
 " FZF
 " git clone git@github.com:junegunn/fzf.git ~/.vim/pack/junegunn/opt/fzf
 " git clone git@github.com:junegunn/fzf.vim.git ~/.vim/pack/junegunn/opt/fzf-vim
-" sudo apt install fzf -y
+" See 01_install_packages for installation of `fzf`.
 packadd! fzf
 packadd! fzf-vim
 

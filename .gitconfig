@@ -1,17 +1,18 @@
 [user]
 	email = LucDachary@users.noreply.github.com
 	name = Luc Dachary
-	signingkey = /home/luc/.ssh/id_ed25519.pub
+	signingkey = ~/.ssh/github_signing_key.pub
 [gpg]
 	format = ssh
 
 [push]
 	default = simple
 [core]
-	excludesfile = /home/luc/.gitignore_global
+	excludesfile = ~/.gitignore_global
 [pull]
     ; see https://git-scm.com/docs/git-config#Documentation/git-config.txt-pullrebase
-	rebase = merges
+	; true to rebase instead of merge
+	rebase = true
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f

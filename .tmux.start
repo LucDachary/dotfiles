@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-# LDA 2023-06-02 dimensions of the Starlite Alacritty terminal
-# tput cols
-# tput lines
-# This precision is necessary since the session is started in detached mode.
+
+# TODO check if there is already a server running.
+# -> If yes: resume it? Or print an error message then exit.
 
 CONF=~/.config/tmux/tmux.$(hostname).conf
 
@@ -14,25 +13,52 @@ tmux -f $CONF \
 	-y 39 \
 	-c ~ \
 
+HOSTNAME="$(hostname)"
+
+if [[ $HOSTNAME == *"book-pro"* ]]; then
+	# macOS
+	DEFAULTSHELL=$(dscl . -read /Users/luc UserShell | awk '{print $2}')
+else
+	# Linux
+	DEFAULTSHELL=bash
+fi
+tmux -f $CONF set -g default-shell $DEFAULTSHELL
+
 # Rename to remove later.
 tmux -f $CONF move-window -t 50
 
 # Root
-if [ $(hostname) = "starluc" ]; then
+if [ $HOSTNAME = "starluc" ] || [[ $HOSTNAME == *"book-pro"* ]]; then
 	tmux -f $CONF new-window -c ~ vit
 else
-	tmux -f $CONF new-window -c ~ bash
+	tmux -f $CONF new-window -c ~ $DEFAULTSHELL
 	tmux -f $CONF split-window -h -l 66% vit
 fi
 tmux -f $CONF rename-window root
 
-# SHELL FOR remote sessions.
-tmux -f $CONF new-window -c /home/luc bash
-tmux -f $CONF rename-window ssh
+# File Manager
+if [[ $HOSTNAME == *"book-pro"* ]]; then
+	tmux -f $CONF new-window -c /home/luc $DEFAULTSHELL -c \
+		vifm ~ /Volumes/PERSONNEL/Seafile
+else
+	tmux -f $CONF new-window -c /home/luc $DEFAULTSHELL -c \
+		vifm ~ ~/Documents/Programmation
+fi
+tmux -f $CONF rename-window "File Manager"
 
 # NCSPOT for MUSIC
-tmux -f $CONF new-window bash -c "ncspot"
-tmux -f $CONF rename-window NCSPOT
+#tmux -f $CONF new-window -c ~ ncspot
+#tmux -f $CONF rename-window "NCSPOT"
+
+# MITMPROXY for development
+tmux -f $CONF new-window -c ~ mitmproxy -p 3128 -v
+tmux -f $CONF rename-window "PROXY"
+# MITMPROXY as reverse proxy for Inarix API (TCP 3129 → TCP 8888)
+tmux -f $CONF split-window -v -l 50% mitmproxy -p 3129 --mode reverse:http://localhost:8888
+
+# First shell to bootstrap projects opening using tmuxer
+tmux -f $CONF new-window -c ~ $DEFAULTSHELL -i
+tmux -f $CONF rename-window "BASH"
 
 # Kill the default window.
 tmux -f $CONF kill-window -t 50

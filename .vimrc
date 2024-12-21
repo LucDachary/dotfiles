@@ -9,6 +9,7 @@ packadd! gitgutter
 " vim -u NONE -c "helptags ~/.vim/pack/preservim/opt/nerdtree/doc" -c q
 packadd! nerdtree
 
+" Git commands inside Vim
 " git clone https://tpope.io/vim/fugitive.git ~/.vim/pack/tpope/opt/fugitive
 " vim -u NONE -c "helptags ~/.vim/pack/tpope/opt/fugitive/doc" -c q
 packadd! fugitive
@@ -20,10 +21,6 @@ packadd! YouCompleteMe
 " git clone https://tpope.io/vim/surround.git ~/.vim/pack/tpope/opt/surround
 " vim -u NONE -c "helptags ~/.vim/pack/tpope/opt/surround/doc" -c q
 packadd! surround
-
-" git clone --depth=1 https://github.com/ctrlpvim/ctrlp.vim.git ~/.vim/pack/ctrlpvim/opt/ctrlp
-" vim -u NONE -c "helptags ~/.vim/pack/ctrlpvim/opt/ctrlp" -c q
-packadd! ctrlp
 
 " git clone https://github.com/vim-airline/vim-airline ~/.vim/pack/vim-airline/opt/airline
 " vim -u NONE -c ":helptags ~/.vim/pack/vim-airline/opt/airline/doc" -c q
@@ -39,7 +36,7 @@ packadd! ale
 
 " https://codeinthehole.com/tips/writing-markdown-in-vim/
 " -> Polyglot bundles the excellent preservim/vim-markdown plugin, but install it directly so the latest version is used
-let g:polyglot_disabled = ['markdown']
+let g:polyglot_disabled = ['markdown.plugin']
 " git clone --depth 1 https://github.com/sheerun/vim-polyglot ~/.vim/pack/sheerun/start/polyglot
 " vim -u NONE -c ":helptags ~/.vim/pack/sheerun/opt/polyglot/doc" -c q
 packadd! polyglot
@@ -70,6 +67,10 @@ packadd! wayland-clipboard
 " sudo apt install fzf -y
 packadd! fzf
 packadd! fzf-vim
+
+" GitHub Copilot
+" git clone https://github.com/github/copilot.vim.git ~/.vim/pack/github/opt/copilot.vim
+"packadd! copilot.vim
 
 "
 " Colors modules
@@ -116,46 +117,66 @@ let g:airline_section_x = ''
 let g:airline_section_error = ''
 let g:airline_section_warning = ''
 
-" Installation of ALE (Asynchronous Lint Engine)
+"
+" ALE (Asynchronous Lint Engine)
 " Set this. Airline will handle the rest.
 let g:airline#extensions#ale#enabled = 1
-
-" ALE configuration.
-let g:ale_echo_msg_format = '[%linter%][%code%] %s [%severity%]'
+" let g:ale_echo_msg_format = '[%linter%][%code%] %s [%severity%]'
 " see https://flake8.readthedocs.io/en/latest/
 let g:ale_python_flake8_options = '--max-line-length 100 --ignore E501' " E501 is line too long (80 chars)
 let g:ale_sign_column_always = 1 " Maintains gutter open.
+let g:ale_deno_import_map = "import-map.json"
 
 " LDA Fri, 21 Jan 2022 15:34:10 +0100
 " had to install eslint:
 " npm install eslint -g (an obsolete version was installed with apt install
 " eslint).
 let g:ale_linters = {
-            \ 'javascript': ['eslint'],
-            \ 'python': ['flake8'],
-			\ 'c': ['clangtidy'],
-			\ 'tex': ['chktex'],
-            \}
+      \ 'javascript': ['eslint'],
+      \ 'typescript': ['tsserver'],
+      "\ 'typescript': ['deno'], (this idiot does not find modules without ".ts")
+      \ 'python': ['pylint', 'flake8'],
+      \ 'c': ['clangtidy'],
+      \ 'tex': ['chktex'],
+	  \ 'tcl': [],
+	  \ 'exp': [],
+      \}
+
 " LDA for black I had to install it through:
 " pip install black --user
+let g:ale_fixers = {}
 let g:ale_fixers = {
-            \ 'javascript': ['eslint'],
-            \ 'python': ['black'],
-            \}
+      \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+      \ 'rust': ['rustfmt'],
+      \ 'markdown': ['prettier'],
+      \ 'javascript': ['deno'],
+      \}
+let g:ale_fixers.python = ['black']
+let g:ale_fixers.typescript = ['deno']
 let g:ale_fix_on_save = 1
-" Alternatively, disable these fixers on save for all filetypes.
-let g:ale_fix_on_save_ignore = ['black']
+let g:ale_fix_on_save_ignore = {
+	\ 'markdown': ['prettier']
+	\}
 let g:rustfmt_autosave = 1
+
+" Inarix ⟶ PNX is using Poetry.
+let g:ale_python_pylint_executable = 'poetry'
+
+autocmd FileType python
+            \ set cc=88 " Black default configuration
+
+" Change ALE warnings and errors colors, thanks to this explanation from Reddit:
+" https://www.reddit.com/r/vim/comments/1br0fgx/comment/kx89s24/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+autocmd ColorScheme * highlight ALEVirtualTextError ctermfg=red
+autocmd ColorScheme * highlight ALEVirtualTextWarning ctermfg=yellow
 
 set cindent
 set autoindent
 filetype plugin indent on    " required
-syntax on
 set number
 " set relativenumber
 set backup
 
-syntax enable
 set t_Co=256
 " Properly display true colors colorschemes.
 " See https://stackoverflow.com/a/62703167
@@ -163,6 +184,7 @@ set termguicolors
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set background=dark
+syntax on
 colorscheme PaperColor
 
 set foldmethod=indent
@@ -178,6 +200,9 @@ set formatoptions+=r
 "unnamedplus is + register, the X11 clipboard
 "unnamed is the * register, the selection (and the mouse middle key on Linux
 "OSes).
+" LDA Mon, 12 Aug 2024 11:42:09 +0200
+" The line below made "p" paste from the clipboard instead of the default
+" unnamed buffer (""). I removed it and now it works fine on the MacBook Pro.
 set clipboard=unnamedplus
 
 let mapleader = ","
@@ -197,51 +222,17 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " Consider .twig as HTML file.
 au BufRead,BufNewFile *.twig        setfiletype html
 
-" Raccourci pour tous les projets.
-noremap <C-d> :CtrlP /home/luc/dreem<CR>
-noremap <C-m> :CtrlP /home/luc/me<CR>
-
-" A few NON-RECURSIVE shortcuts for INSERT and COMMAND-LINE mode.
-" 2020-09-14 I have configured these mappings in tmux.conf for global availability.
-"noremap! ù /
-"noremap! / ù
-"noremap ù /
-"noremap / ù
-"noremap! é ~
-"noremap! ~ é
-"noremap! ç `
-"noremap! ` ç
-"noremap! è \
-"noremap! \ è
-"noremap! à @
-"noremap! @ à
-"noremap! # ²
-"noremap! ² #
-
 " Configuration des fichiers Docker
-au BufRead,BufNewFile *.yml
+au BufRead,BufNewFile *.yml,*.yaml
     \ set tabstop=2 |
     \ set shiftwidth=2 |
-    \ set expandtab
+    \ set expandtab |
+    \ set fileformat=unix
 au BufRead,BufNewFile *.conf set tabstop=2 shiftwidth=2 expandtab
 
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_use_caching = 1
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
-let g:ctrlp_lazy_update = 1 " Updates after 250ms without typing. 0 to disable
-" (The following is a Vim option.)
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*        " Linux/MacOSX
-" (The following is dedicated to CtrlP.)
-let g:ctrlp_custom_ignore = {
-            \ 'dir':  '\v(/cache)|(node_modules)|(\w+/vendor)|(\w+/build)$',
-            \ }
-let g:ctrlp_max_files = 0
-let g:ctrlp_max_depth = 40
 
-" 2018-10-03: Essai de find, puisque je ne vois plus des fichiers (comme `login_app/views/*`).
-" 2019-09-02: commenting since the default globpath() works with g:ctrlp_custom_ignore. See above.
-" let g:ctrlp_user_command = 'find %s -type f -not -name "*.pyc" -not -path "*.git*" -not -path "*build*" -not -path "*vendor*" -not -path "*node_modules*"'
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,~/Library/*        " Linux/MacOSX
+
 
 " Ferme VIM si le dernier onglet est NERDTree.
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
@@ -266,18 +257,7 @@ nnoremap <C-H> <C-W><C-H>
 au BufNewFile,BufRead *.js
 			\ set expandtab
 
-" Python PEP8 configuration
-"au BufNewFile,BufRead *.py
-"    \ set foldmethod=indent |
-"    \ set tabstop=4 |
-"    \ set softtabstop=4 |
-"    \ set shiftwidth=4 |
-"    \ set textwidth=99 |
-"    \ set expandtab |
-"    \ set autoindent |
-"    \ set fileformat=unix
-"
-au BufNewFile,BufRead *.html,*.css,*.yaml
+au BufNewFile,BufRead *.html,*.css
     \ set tabstop=4 |
     \ set softtabstop=4 |
     \ set expandtab |
@@ -299,30 +279,6 @@ au BufNewFile,BufRead *.c,*.h
 " SpellCab comes).
 au BufRead,BufNewFile *.py,*.pyw,*.c,*.h,*.js
     \ match SpellCap /\s\+$/
-
-"
-" Vim-markdown configuration
-let g:vim_markdown_toc_autofit = 1
-let g:vim_markdown_borderless_table = 1
-set conceallevel=2 " To have italic, bold and links, instead of _italic_, __bold__, and [link](http://...).
-let g:vim_markdown_no_extensions_in_markdown = 1 " For GitHub and GitLab wiki.
-let g:vim_markdown_autowrite = 1 " Autosave when following links with command ge.
-" Enable folding.
-let g:vim_markdown_folding_disabled = 0
-" Fold heading in with the contents.
-let g:vim_markdown_folding_style_pythonic = 1
-" Don't use the shipped key bindings.
-let g:vim_markdown_no_default_key_mappings = 1
-" Autoshrink TOCs.
-let g:vim_markdown_toc_autofit = 1
-" Indentation for new lists. We don't insert bullets as it doesn't play
-" nicely with `gq` formatting. It relies on a hack of treating bullets
-" as comment characters.
-" See https://github.com/plasticboy/vim-markdown/issues/232
-let g:vim_markdown_new_list_item_indent = 0
-let g:vim_markdown_auto_insert_bullets = 0
-" Format strike-through text (wrapped in `~~`).
-let g:vim_markdown_strikethrough = 1
 
 nnoremap T :Tabl<CR>
 
@@ -417,7 +373,7 @@ silent! helptags ALL
 " Sun, 06 Mar 2022 11:30:50 +0100
 " tmux will only forward escape sequences to the terminal if surrounded by a DCS sequence
 if exists('$TMUX')
-   " set insert mode to a cyan vertical line   
+   " set insert mode to a cyan vertical line
    let &t_SI .= "\<esc>Ptmux;\<esc>\<esc>[6 q\<esc>\\"
    let &t_SI .= "\<esc>Ptmux;\<esc>\<esc>]12;cyan\x7\<esc>\\"
    " set normal mode to a green block
@@ -442,13 +398,49 @@ if exists('$TMUX')
 
 " YouCompleteMe shortcuts
 nnoremap <F10> :YcmCompleter GoTo<cr>
-nnoremap <F11> :tab split \| YcmCompleter GoTo<CR>
+nnoremap <F12> :tab split \| YcmCompleter GoTo<CR>
 " Sun, 18 Dec 2022 15:38:39 +0100
 " Disabling YCM documentation automatic popup on hovering, because it's waaaay to long for Rust
 " and I cannot see errors or commandline.
 let g:ycm_auto_hover="''"
 " If one want to see the help, just press <leader>D above the word.
 nmap <leader>D <plug>(YCMHover)
+" No display of diagnostics. Let ALE do the job.
+let g:ycm_show_diagnostics_ui = 0  " this is the E> or W> in the gutter.
+let g:ycm_enable_diagnostic_highlighting = 0  " this is the actual highlighting.
+let g:ycm_error_symbol = 'E>'
+let g:ycm_warning_symbol = 'W>'
+
+" Enable YCM doc popover for Typescript (ts) files.
+augroup MyYCMCustom
+  autocmd!
+  autocmd FileType ts let b:ycm_hover = {
+    \ 'command': 'GetHover',
+    \ 'syntax': &filetype
+    \ 'popup_params': {
+    \     'maxwidth': 80,
+	\     'maxheight': 20,
+    \     'border': [],
+    \     'borderchars': ['─', '│', '─', '│', '┌', '┐', '┘', '└'],
+    \   },
+    \ }
+augroup END
+
+" Enable YCM doc popover for Rust (rs) files.
+augroup MyYCMCustom
+  autocmd!
+  autocmd FileType rs let b:ycm_hover = {
+    \ 'command': 'GetHover',
+    \ 'syntax': &filetype
+    \ 'popup_params': {
+    \     'maxwidth': 80,
+    \     'line': 'cursor-5',
+	\     'maxheight': 20,
+    \     'border': [],
+    \     'borderchars': ['─', '│', '─', '│', '┌', '┐', '┘', '└'],
+    \   },
+    \ }
+augroup END
 
 
  " Allows custom .vimrc files in projects directories, but in secure mode.
@@ -494,16 +486,11 @@ set pastetoggle=<F2>
 " Open vim on a given line
 " vim +xx FILE
 
-" Thu, 27 Oct 2022 09:48:50 +0200
-" Tentative pour brancher Ctrl-i vers "\emph{*}" avec le curseur à la place de
-" l'asterisk.
-" :imap <C-i> \emph{}<Esc>i
-" → Ca fonctionne mais ce n'est pas pratique d'avoir fermé l'accolade.
-:imap <C-i> \emph{
-:imap <C-b> \textbf{
-
 " Research configuration.
 nnoremap <silent> <Leader>f :Rg<CR>
+nnoremap <silent> <Leader>w :Rg <C-R><C-W><CR>
+nnoremap <silent> <Leader>j :RG<CR>
+nnoremap <silent> <Leader>b :History<CR>
 set grepprg=rg\ --vimgrep\ --smart-case\ --follow
 nnoremap <leader>c :Commits<CR>
 
@@ -517,9 +504,42 @@ let g:fzf_vim.preview_window = ['right,50%,<70(up,50%)', 'ctrl-/']
 " Overriding :Rg and :RG to add "--no-ignore" and "--follow".
 " Original code from ~/.vim/pack/junegunn/opt/fzf-vim/plugin/fzf.vim, lines 63 and 64.
 " TODO determine if "--follow" does not imply too much processing (/var/oscp/* is quite deep)
-command! -bang -nargs=* Rg call fzf#vim#grep("rg --follow --no-ignore --column --line-number --no-heading --color=always --smart-case -- ".fzf#shellescape(<q-args>), fzf#vim#with_preview(), <bang>0)
-command! -bang -nargs=* RG call fzf#vim#grep2("rg --follow --no-ignore --column --line-number --no-heading --color=always --smart-case -- ", <q-args>, fzf#vim#with_preview(), <bang>0)'
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --follow --column --line-number --no-heading --color=always --smart-case --ignore-file ~/.rgignore -- ".fzf#shellescape(<q-args>), fzf#vim#with_preview(), <bang>0)
+command! -bang -nargs=* RG call fzf#vim#grep2("rg --follow --no-ignore --column --line-number --no-heading --color=always --smart-case --ignore-file ~/.rgignore -- ", <q-args>, fzf#vim#with_preview({'dir': '~/Documents/github.com/'}), <bang>0)'
+" LDA Tue, 13 Aug 2024 18:22:45 +0200
+" I added `--ignore-file ~/.rgignore` so despite `--no-ignore` it reads ~/.rgignore.
+" I want to avoid *~ files (see ~/.rgignore).
 
+" Using FZF as a CtrlP replacement.
+noremap <C-p> :Files<CR>
+noremap <C-d> :Files /Users/luc/Documents/<CR>
+" Warning: <C-m> maps to 'Enter', and so messes up with other plugins.
+" noremap <C-m> :Files /Users/luc/a/me/<CR>
+
+" GitHub Copilot shortcuts
+imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
+let g:copilot_no_tab_map = v:true
+let g:copilot_filetypes = {
+			\ 'tex': v:false,
+			\ 'markdown': v:false,
+			\ }
+
+" <C-j> to jump tags like <C-]> (in fucking macOS).
+augroup HelpMaps
+    autocmd!
+    autocmd FileType help :nnoremap <buffer> <C-j> <C-]>
+augroup END
+
+" Consider Kanata configuration files as Lisp.
+augroup filetypedetect
+    autocmd BufNew,BufNewFile,BufRead *.kbd :setfiletype lisp
+augroup END
+
+"
+" Improving colorscheme for copilot comments
+" https://github.com/NLKNguyen/papercolor-theme
+autocmd ColorScheme PaperColor
+			\ highlight CopilotSuggestion guifg=#5fafd7 ctermfg=8
 
 "
 " Notes

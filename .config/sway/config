@@ -233,22 +233,28 @@ for_window [title="Seamly2D"] move --no-auto-back-and-forth to workspace 8
 # → Not sure about that. Maybe it changes nothing.
 bindsym --to-code {
 	# Screenshot and edit the whole, focused display.
-	Print exec grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') - | swappy -f -
+	Print exec grim -o $(swaymsg -t get_outputs | \
+		jq -r '.[] | select(.focused) | .name') - | \
+		satty -f - -o "/home/luc/Captures d'écran/satty_%F_%T.png"
+
 	# Screenshot and edit a custom selection.
-	Shift+Print exec grim -g "$(slurp)" - | swappy -f -
+	Shift+Print exec grim -g "$(slurp)" - | \
+		satty -f - -o "/home/luc/Captures d'écran/satty_%F_%T.png"
+
 	# Screenshot and edit a selected window.
 	# DEV
 	# Control+Shift+s exec grim -g "$(slurp)" - | swappy -f -
 	# FIXME This does not work, why?
 	# Alt+Shift+Print
-	Control+Shift+Print exec grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp -r)" - | swappy -f -
+	Control+Shift+Print exec grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp -r)" - | \
+		satty -f - -o "/home/luc/Captures d'écran/satty_%F_%T.png"
 
 	# Grab a screenshot from the focused window under Sway, using swaymsg and jq:
 	# Mod1+Shift+s exec grim -g "$(swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')"
 }
 
 # TODO to select a window. See https://github.com/emersion/slurp
-# bindsym Control+Shift+s exec --no-startup-id swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp 
+# bindsym Control+Shift+s exec --no-startup-id swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp
 
 bindsym XF86MonBrightnessUp exec --no-startup-id "xbacklight -inc 15 -fps 30"
 bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -dec 15 -fps 30"
@@ -278,6 +284,7 @@ input * {
 	# It was this up to a system upgrade on Sat, 17 Jun 2023 08:00. Now "ar" is not found in
 	# symbols. To be fixed.
 	# xkb_layout "fr-dev,fr,ar"
+	xkb_variant "basic,optimot_iso_18,basic"
 
     # xkb_variant "colemak,,typewriter"
     xkb_options "grp:win_space_toggle"

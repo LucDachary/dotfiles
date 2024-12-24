@@ -47,8 +47,8 @@ fi
 tmux -f $CONF rename-window "File Manager"
 
 # NCSPOT for MUSIC
-#tmux -f $CONF new-window -c ~ ncspot
-#tmux -f $CONF rename-window "NCSPOT"
+tmux -f $CONF new-window -c ~ ncspot
+tmux -f $CONF rename-window "NCSPOT"
 
 # MITMPROXY for development
 tmux -f $CONF new-window -c ~ mitmproxy -p 3128 -v

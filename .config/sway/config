@@ -301,7 +301,13 @@ input 1452:620:Apple_Inc._Magic_Keyboard_with_Numeric_Keypad {
 
 # Lock
 # TODO suspend dpms a few seconds after we lock the screen.
-bindsym Control+Mod1+l exec --no-startup-id swaylock -F -k --image /home/luc/Images/Photos/Wallpapers/forrest.png -f
+bindsym Control+Mod1+l exec --no-startup-id swaylock \
+					--daemonize \
+					--show-failed-attempts \
+					--show-keyboard-layout \
+					--color 000000 \
+					--image ~/Photos/Wallpapers/forrest.png \
+					--scaling fit
 
 # Notifications manager
 exec dunst
